@@ -116,7 +116,7 @@ int opal_proc_local_set(opal_proc_t* proc)
  * name while OPAL and upper layers are initializing,
  * thus allowing debug messages to be more easily
  * understood */
-void opal_proc_set_name(opal_process_name_t *name)
+void opal_proc_set_name(opal_process_name_t *name) //SSY set the name of this process
 {
     /* to protect alignment, copy the name across */
     memcpy(&opal_local_proc.proc_name, name, sizeof(opal_process_name_t));

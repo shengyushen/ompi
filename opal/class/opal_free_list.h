@@ -99,7 +99,7 @@ OPAL_DECLSPEC OBJ_CLASS_DECLARATION(opal_free_list_t);
 struct mca_mpool_base_registration_t;
 struct opal_free_list_item_t
 {
-    opal_list_item_t super;
+    opal_list_item_t super; // SSY opal/class/opal_list.h  generate list element
     struct mca_rcache_base_registration_t *registration;
     void *ptr;
 };

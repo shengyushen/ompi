@@ -47,7 +47,7 @@
 #endif
 
 typedef opal_atomic_intptr_t atomic_fifo_value_t;
-typedef intptr_t fifo_value_t;
+typedef intptr_t fifo_value_t; //SSY only relative int
 
 #define VADER_FIFO_FREE  ((fifo_value_t)-2)
 

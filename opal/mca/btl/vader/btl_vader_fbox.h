@@ -72,9 +72,9 @@ static inline mca_btl_vader_fbox_hdr_t mca_btl_vader_fbox_read_header (mca_btl_v
 }
 
 /* attempt to reserve a contiguous segment from the remote ep */
-static inline bool mca_btl_vader_fbox_sendi (mca_btl_base_endpoint_t *ep, unsigned char tag,
+static inline bool mca_btl_vader_fbox_sendi (mca_btl_base_endpoint_t *ep, unsigned char tag, // SSY 0xfe from opal/mca/btl/vader/btl_vader_fifo.h
                                              void * restrict header, const size_t header_size,
-                                             void * restrict payload, const size_t payload_size)
+                                             void * restrict payload, const size_t payload_size) // SSY payload_size 0 from opal/mca/btl/vader/btl_vader_fifo.h
 {
     const unsigned int fbox_size = mca_btl_vader_component.fbox_size;
     size_t size = header_size + payload_size;

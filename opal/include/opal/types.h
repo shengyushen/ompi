@@ -47,7 +47,7 @@
  * portable assignment of pointer to int
  */
 
-typedef union {
+typedef union { // SSY this pointer can either be int 64 int 32 pointer or two int32
    uint64_t lval;
    uint32_t ival;
    void*    pval;

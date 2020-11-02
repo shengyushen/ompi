@@ -99,7 +99,7 @@ OPAL_DECLSPEC OBJ_CLASS_DECLARATION(opal_list_item_t);
  *
  * Struct of an opal_list_item_t
  */
-struct opal_list_item_t
+struct opal_list_item_t //SSY generate list element
 {
     opal_object_t super;
     /**< Generic parent class for all Open MPI objects */

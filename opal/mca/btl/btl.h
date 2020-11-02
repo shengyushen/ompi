@@ -452,7 +452,7 @@ typedef struct mca_btl_base_segment_t mca_btl_base_segment_t;
  */
 
 struct mca_btl_base_descriptor_t {
-    opal_free_list_item_t super;
+    opal_free_list_item_t super; //SSY opal/class/opal_free_list.h 
     mca_btl_base_segment_t *des_segments;     /**< local segments */
     size_t des_segment_count;                 /**< number of local segments */
     mca_btl_base_completion_fn_t des_cbfunc;  /**< local callback function */
@@ -1188,6 +1188,7 @@ typedef int (*mca_btl_base_module_flush_fn_t) (struct mca_btl_base_module_t *btl
 struct mca_btl_base_module_t {
 
     /* BTL common attributes */
+		// SSY back to mca_btl_base_component_3_0_0_t above
     mca_btl_base_component_t* btl_component; /**< pointer back to the BTL component structure */
     size_t      btl_eager_limit;      /**< maximum size of first fragment -- eager send */
     size_t      btl_rndv_eager_limit;    /**< the size of a data sent in a first fragment of rendezvous protocol */

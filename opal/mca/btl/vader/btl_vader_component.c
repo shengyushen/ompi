@@ -86,14 +86,14 @@ mca_btl_vader_component_t mca_btl_vader_component = {
             MCA_BTL_DEFAULT_VERSION("vader"),
             .mca_open_component = mca_btl_vader_component_open,
             .mca_close_component = mca_btl_vader_component_close,
-            .mca_register_component_params = mca_btl_vader_component_register,
+            .mca_register_component_params = mca_btl_vader_component_register, // SSY reging all variables
         },
         .btl_data = {
             /* The component is checkpoint ready */
             .param_field = MCA_BASE_METADATA_PARAM_CHECKPOINT
         },
 
-        .btl_init = mca_btl_vader_component_init,
+        .btl_init = mca_btl_vader_component_init, // SSY this is the init function for vader, but what is diff between init and first time init?
         .btl_progress = mca_btl_vader_component_progress,
     }  /* end super */
 };
@@ -286,6 +286,7 @@ static int mca_btl_vader_component_register (void)
     mca_btl_vader.super.btl_latency   = 1;     /* Microsecs */
 
     /* Call the BTL based to register its MCA params */
+		// SSY base regs calling the same mca_base_component_var_register as above
     mca_btl_base_param_register(&mca_btl_vader_component.super.btl_version,
                                 &mca_btl_vader.super);
 
@@ -678,13 +679,13 @@ static void mca_btl_vader_progress_waiting (mca_btl_base_endpoint_t *ep)
 
     OPAL_THREAD_LOCK(&ep->pending_frags_lock);
     OPAL_LIST_FOREACH_SAFE(frag, next, &ep->pending_frags, mca_btl_vader_frag_t) {
-        ret = vader_fifo_write_ep (frag->hdr, ep);
+        ret = vader_fifo_write_ep (frag->hdr, ep); // SSY really write to dest
         if (!ret) {
             OPAL_THREAD_UNLOCK(&ep->pending_frags_lock);
             return;
         }
 
-        (void) opal_list_remove_first (&ep->pending_frags);
+        (void) opal_list_remove_first (&ep->pending_frags); // SSY removing frag handled
     }
 
     ep->waiting = false;
@@ -709,8 +710,9 @@ static void mca_btl_vader_progress_endpoints (void)
     }
 
     OPAL_THREAD_LOCK(&mca_btl_vader_component.lock);
+		// SSY interating though each endpoint with pending frags
     OPAL_LIST_FOREACH_SAFE(ep, next, &mca_btl_vader_component.pending_endpoints, mca_btl_base_endpoint_t) {
-        mca_btl_vader_progress_waiting (ep);
+        mca_btl_vader_progress_waiting (ep); // SSY calling above to handle this ep's pending frag
     }
     OPAL_THREAD_UNLOCK(&mca_btl_vader_component.lock);
 }

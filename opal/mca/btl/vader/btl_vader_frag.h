@@ -85,7 +85,7 @@ struct mca_btl_vader_frag_t {
     /** endpoint this fragment is active on */
     struct mca_btl_base_endpoint_t *endpoint;
     /** fragment header (in the shared memory region) */
-    mca_btl_vader_hdr_t *hdr;
+    mca_btl_vader_hdr_t *hdr; // SSY fifo header
     /** free list this fragment was allocated within */
     opal_free_list_t *my_list;
     /** rdma callback data */

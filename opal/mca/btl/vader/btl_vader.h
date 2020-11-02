@@ -134,7 +134,7 @@ struct mca_btl_vader_component_t {
     unsigned int num_fbox_in_endpoints;     /**< number of fast boxes to poll */
     struct vader_fifo_t *my_fifo;           /**< pointer to the local fifo */
 
-    opal_list_t pending_endpoints;          /**< list of endpoints with pending fragments */
+    opal_list_t pending_endpoints;          /**< list of endpoints with pending fragments */ // SSY list of endpoints to be scaned for sending
     opal_list_t pending_fragments;          /**< fragments pending remote completion */
 
     char *backing_directory;                /**< directory to place shared memory backing files */
@@ -165,7 +165,8 @@ typedef struct mca_btl_vader_t mca_btl_vader_t;
 OPAL_MODULE_DECLSPEC extern mca_btl_vader_t mca_btl_vader;
 
 /* number of peers on the node (not including self) */
-#define MCA_BTL_VADER_NUM_LOCAL_PEERS opal_process_info.num_local_peers
+// SSY refer to opal/util/proc.c  instead of opal/mca/btl/usnic/btl_usnic_compat.h, the latter one is for cisco
+#define MCA_BTL_VADER_NUM_LOCAL_PEERS opal_process_info.num_local_peers // SSY zero 
 
 /* local rank in the group */
 #define MCA_BTL_VADER_LOCAL_RANK opal_process_info.my_local_rank

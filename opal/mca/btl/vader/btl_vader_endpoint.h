@@ -84,7 +84,7 @@ typedef struct mca_btl_base_endpoint_t {
     } segment_data;
 
     opal_mutex_t pending_frags_lock; /**< protect pending_frags */
-    opal_list_t pending_frags; /**< fragments pending fast box space */
+    opal_list_t pending_frags; /**< fragments pending fast box space */ // SSY list of element to be sent
     bool waiting;           /**< endpoint is on the component wait list */
 } mca_btl_base_endpoint_t;
 

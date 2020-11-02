@@ -62,7 +62,7 @@ static int vader_ft_event (int state);
 
 mca_btl_vader_t mca_btl_vader = {
     {
-        &mca_btl_vader_component.super,
+        &mca_btl_vader_component.super, // SSY mca_btl_vader_t  have a super of type mca_btl_base_module_t, which again contains the following btl_add_procs and so on
         .btl_add_procs = vader_add_procs,
         .btl_del_procs = vader_del_procs,
         .btl_finalize = vader_finalize,
@@ -77,7 +77,7 @@ mca_btl_vader_t mca_btl_vader = {
     }
 };
 
-static int vader_btl_first_time_init(mca_btl_vader_t *vader_btl, int n)
+static int vader_btl_first_time_init(mca_btl_vader_t *vader_btl, int n) // SSY this module file seems to be init related file
 {
     mca_btl_vader_component_t *component = &mca_btl_vader_component;
     int rc;
@@ -218,7 +218,7 @@ static int fini_vader_endpoint (struct mca_btl_base_endpoint_t *ep)
 
     return OPAL_SUCCESS;
 }
-
+// SSY MPI -> PML -> BML(BTL management) -> BTL(byte trans layer IB here ) 
 /**
  * PML->BTL notification of change in the process list.
  * PML->BTL Notification that a receive fragment has been matched.
@@ -234,19 +234,19 @@ static int fini_vader_endpoint (struct mca_btl_base_endpoint_t *ep)
  */
 
 static int vader_add_procs (struct mca_btl_base_module_t* btl,
-                            size_t nprocs, struct opal_proc_t **procs,
-                            struct mca_btl_base_endpoint_t **peers,
+                            size_t nprocs, struct opal_proc_t **procs,// SSY new procs to add 
+                            struct mca_btl_base_endpoint_t **peers, // SSY newly generated peers
                             opal_bitmap_t *reachability)
 {
     mca_btl_vader_component_t *component = &mca_btl_vader_component;
-    mca_btl_vader_t *vader_btl = (mca_btl_vader_t *) btl;
+    mca_btl_vader_t *vader_btl = (mca_btl_vader_t *) btl; // SSY head of mca_btl_vader_t is a mca_btl_base_module_t 
     const opal_proc_t *my_proc;
     int rc = OPAL_SUCCESS;
 
     /* initializion */
 
     /* get pointer to my proc structure */
-    if (NULL == (my_proc = opal_proc_local_get())) {
+    if (NULL == (my_proc = opal_proc_local_get())) { // SSY opal/util/proc.c  not opal/mca/btl/usnic/btl_usnic_compat.h 
         return OPAL_ERR_OUT_OF_RESOURCE;
     }
 
@@ -260,7 +260,7 @@ static int vader_add_procs (struct mca_btl_base_module_t* btl,
         return OPAL_ERROR;
     }
 
-    if (!vader_btl->btl_inited) {
+    if (!vader_btl->btl_inited) { // SSY haha not yet initialized
         rc = vader_btl_first_time_init (vader_btl, 1 + MCA_BTL_VADER_NUM_LOCAL_PEERS);
         if (rc != OPAL_SUCCESS) {
             return rc;

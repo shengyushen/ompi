@@ -35,11 +35,11 @@
  * @param peer (IN)     BTL peer addressing
  */
 int mca_btl_vader_send (struct mca_btl_base_module_t *btl,
-                        struct mca_btl_base_endpoint_t *endpoint,
+                        struct mca_btl_base_endpoint_t *endpoint, // SSY opal/mca/btl/vader/btl_vader_endpoint.h lots of definition in each btl
                         struct mca_btl_base_descriptor_t *descriptor,
                         mca_btl_base_tag_t tag)
 {
-    mca_btl_vader_frag_t *frag = (mca_btl_vader_frag_t *) descriptor;
+    mca_btl_vader_frag_t *frag = (mca_btl_vader_frag_t *) descriptor; // SSY head of mca_btl_vader_frag_t is mca_btl_base_descriptor_t
     const size_t total_size = frag->segments[0].seg_len;
 
     /* in order to work around a long standing ob1 bug (see #3845) we have to always
@@ -55,10 +55,10 @@ int mca_btl_vader_send (struct mca_btl_base_module_t *btl,
     if (opal_list_get_size (&endpoint->pending_frags) || !vader_fifo_write_ep (frag->hdr, endpoint)) {
         frag->base.des_flags |= MCA_BTL_DES_SEND_ALWAYS_CALLBACK;
         OPAL_THREAD_LOCK(&endpoint->pending_frags_lock);
-        opal_list_append (&endpoint->pending_frags, (opal_list_item_t *) frag);
+        opal_list_append (&endpoint->pending_frags, (opal_list_item_t *) frag); // SSY sending frag to endpoint
         if (!endpoint->waiting) {
             OPAL_THREAD_LOCK(&mca_btl_vader_component.lock);
-            opal_list_append (&mca_btl_vader_component.pending_endpoints, &endpoint->super);
+            opal_list_append (&mca_btl_vader_component.pending_endpoints, &endpoint->super); // SSY list of endpoint to be scaned for sending
             OPAL_THREAD_UNLOCK(&mca_btl_vader_component.lock);
             endpoint->waiting = true;
         }

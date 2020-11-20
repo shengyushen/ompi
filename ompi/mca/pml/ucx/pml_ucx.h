@@ -37,7 +37,7 @@ typedef struct pml_ucx_convertor            mca_pml_ucx_convertor_t;
  */
 
 struct mca_pml_ucx_module {
-    mca_pml_base_module_t     super;
+    mca_pml_base_module_t     super; // SSY defining how ucx call pml from mca
 
     /* UCX global objects */
     ucp_context_h             ucp_context;

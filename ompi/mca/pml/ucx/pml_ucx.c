@@ -62,7 +62,7 @@ mca_pml_ucx_module_t ompi_pml_ucx = {
         .pml_recv          = mca_pml_ucx_recv,
         .pml_isend_init    = mca_pml_ucx_isend_init,
         .pml_isend         = mca_pml_ucx_isend,
-        .pml_send          = mca_pml_ucx_send,
+        .pml_send          = mca_pml_ucx_send, //SSY this is the send we call in ompi/mpi/c/send.c
         .pml_iprobe        = mca_pml_ucx_iprobe,
         .pml_probe         = mca_pml_ucx_probe,
         .pml_start         = mca_pml_ucx_start,
@@ -672,11 +672,14 @@ static inline ucs_status_ptr_t mca_pml_ucx_common_send(ucp_ep_h ep, const void *
                                                        mca_pml_base_send_mode_t mode,
                                                        ucp_send_callback_t cb)
 {
-    if (OPAL_UNLIKELY(MCA_PML_BASE_SEND_BUFFERED == mode)) {
+    if (OPAL_UNLIKELY(MCA_PML_BASE_SEND_BUFFERED == mode)) { // SSY buffered 
         return mca_pml_ucx_bsend(ep, buf, count, datatype, tag);
-    } else if (OPAL_UNLIKELY(MCA_PML_BASE_SEND_SYNCHRONOUS == mode)) {
+    } else if (OPAL_UNLIKELY(MCA_PML_BASE_SEND_SYNCHRONOUS == mode)) { // SSY sync one
         return ucp_tag_send_sync_nb(ep, buf, count, ucx_datatype, tag, cb);
-    } else {
+    } else { // SSY normally calling from ompi/mpi/c/send.c MPI_Send, we use MCA_PML_BASE_SEND_STANDARD
+				// SSY this call to ucx
+				// actually ompi -> ucp -> uct -> verbs
+				// SSY ../ucx/src/ucp/tag/tag_send.c
         return ucp_tag_send_nb(ep, buf, count, ucx_datatype, tag, cb);
     }
 }
@@ -726,7 +729,7 @@ mca_pml_ucx_send_nb(ucp_ep_h ep, const void *buf, size_t count,
                     ucp_send_callback_t cb)
 {
     ompi_request_t *req;
-
+		//SSY send here
     req = (ompi_request_t*)mca_pml_ucx_common_send(ep, buf, count, datatype,
                                                    mca_pml_ucx_get_datatype(datatype),
                                                    tag, mode, cb);
@@ -783,7 +786,7 @@ int mca_pml_ucx_send(const void *buf, size_t count, ompi_datatype_t *datatype, i
                                     PML_UCX_MAKE_SEND_TAG(tag, comm));
     }
 #endif
-
+		// SSY send nb
     return mca_pml_ucx_send_nb(ep, buf, count, datatype,
                                mca_pml_ucx_get_datatype(datatype),
                                PML_UCX_MAKE_SEND_TAG(tag, comm), mode,

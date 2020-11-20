@@ -32,7 +32,7 @@ typedef enum {
     MCA_PML_BASE_SEND_COMPLETE,
     MCA_PML_BASE_SEND_BUFFERED,
     MCA_PML_BASE_SEND_READY,
-    MCA_PML_BASE_SEND_STANDARD,
+    MCA_PML_BASE_SEND_STANDARD, // SSY normally MPI_Send in ompi/mpi/c/send.c
     MCA_PML_BASE_SEND_SIZE
 } mca_pml_base_send_mode_t;
 

@@ -78,6 +78,10 @@ int MPI_Send(const void *buf, int count, MPI_Datatype type, int dest,
     }
 
     OPAL_CR_ENTER_LIBRARY();
+		// SSY calling mca_pml.pml_send
+		// while mca_pml is actually mca_pml_base_module_1_0_1_t
+		// SSY for ucx this is mca_pml_ucx_send defined in ompi/mca/pml/ucx/pml_ucx.c
+		// SSY notice that we are using standard mode
     rc = MCA_PML_CALL(send(buf, count, type, dest, tag, MCA_PML_BASE_SEND_STANDARD, comm));
     OMPI_ERRHANDLER_RETURN(rc, comm, rc, FUNC_NAME);
 }

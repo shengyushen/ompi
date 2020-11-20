@@ -545,6 +545,8 @@ typedef mca_pml_base_module_1_0_1_t mca_pml_base_module_t;
 #define MCA_PML_CALL(a) MCA_PML_CALL_EXPANDER(MCA_ompi_pml_DIRECT_CALL_COMPONENT, a)
 
 #else
+// SSY mca_pml is a static structure
+// its type mca_pml_base_module_t is defined below mca_pml_base_module_1_0_1_t
 #define MCA_PML_CALL(a) mca_pml.pml_ ## a
 #endif
 

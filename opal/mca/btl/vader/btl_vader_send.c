@@ -34,8 +34,9 @@
  * @param btl (IN)      BTL module
  * @param peer (IN)     BTL peer addressing
  */
+// SSY MPI_send will call this
 int mca_btl_vader_send (struct mca_btl_base_module_t *btl,
-                        struct mca_btl_base_endpoint_t *endpoint, // SSY opal/mca/btl/vader/btl_vader_endpoint.h lots of definition in each btl
+                        struct mca_btl_base_endpoint_t *endpoint, // SSY the endpoint on the other side opal/mca/btl/vader/btl_vader_endpoint.h lots of definition in each btl
                         struct mca_btl_base_descriptor_t *descriptor,
                         mca_btl_base_tag_t tag)
 {

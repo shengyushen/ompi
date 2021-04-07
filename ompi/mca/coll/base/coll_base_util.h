@@ -60,10 +60,12 @@ ompi_coll_base_sendrecv( void* sendbuf, size_t scount, ompi_datatype_t* sdatatyp
                           struct ompi_communicator_t* comm,
                           ompi_status_public_t* status, int myid )
 {
+	//SSY self send recv
     if ((dest == source) && (source == myid)) {
         return (int) ompi_datatype_sndrcv(sendbuf, (int32_t) scount, sdatatype,
                                           recvbuf, (int32_t) rcount, rdatatype);
     }
+	//SSY first async recv and sync send
     return ompi_coll_base_sendrecv_actual (sendbuf, scount, sdatatype,
                                            dest, stag,
                                            recvbuf, rcount, rdatatype,

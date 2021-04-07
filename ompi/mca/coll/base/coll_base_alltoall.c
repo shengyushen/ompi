@@ -128,7 +128,7 @@ mca_coll_base_alltoall_intra_basic_inplace(const void *rbuf, int rcount,
     /* All done */
     return err;
 }
-
+//SSY first async recv and then sync send
 int ompi_coll_base_alltoall_intra_pairwise(const void *sbuf, int scount,
                                             struct ompi_datatype_t *sdtype,
                                             void* rbuf, int rcount,
@@ -169,6 +169,7 @@ int ompi_coll_base_alltoall_intra_pairwise(const void *sbuf, int scount,
         tmprecv = (char*)rbuf + (ptrdiff_t)recvfrom * rext * (ptrdiff_t)rcount;
 
         /* send and receive */
+	//SSY first async recv and then sync send
         err = ompi_coll_base_sendrecv( tmpsend, scount, sdtype, sendto,
                                         MCA_COLL_BASE_TAG_ALLTOALL,
                                         tmprecv, rcount, rdtype, recvfrom,

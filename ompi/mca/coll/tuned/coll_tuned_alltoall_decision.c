@@ -152,7 +152,7 @@ int ompi_coll_tuned_alltoall_intra_do_this(const void *sbuf, int scount,
                  algorithm, faninout, segsize));
 
     switch (algorithm) {
-    case (0):
+    case (0): //SSY this is the default behavior that select proper function according to msg size
         return ompi_coll_tuned_alltoall_intra_dec_fixed(sbuf, scount, sdtype, rbuf, rcount, rdtype, comm, module);
     case (1):
         return ompi_coll_base_alltoall_intra_basic_linear(sbuf, scount, sdtype, rbuf, rcount, rdtype, comm, module);

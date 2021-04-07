@@ -107,6 +107,23 @@ int MPI_Alltoall(const void *sendbuf, int sendcount, MPI_Datatype sendtype,
     OPAL_CR_ENTER_LIBRARY();
 
     /* Invoke the coll component to perform the back-end operation */
+	// SSY the real all to all function called, it may be set with configuation
+	//ompi/mca/coll/fca/coll_fca_module.c:    fca_module->super.coll_alltoall   = mca_coll_fca_component.fca_enable_alltoall?   mca_coll_fca_alltoall   : NULL;
+	//ompi/mca/coll/self/coll_self_module.c:        module->super.coll_alltoall   = mca_coll_self_alltoall_intra;
+	//ompi/mca/coll/basic/coll_basic_module.c:        basic_module->super.coll_alltoall   = mca_coll_basic_alltoall_inter;
+	//ompi/mca/coll/basic/coll_basic_module.c:        basic_module->super.coll_alltoall   = ompi_coll_base_alltoall_intra_basic_linear;
+	//ompi/mca/coll/basic/coll_basic_module.c:        basic_module->super.coll_alltoall   = ompi_coll_base_alltoall_intra_basic_linear;
+	//ompi/mca/coll/sync/coll_sync_module.c:    sync_module->super.coll_alltoall   = NULL;
+	//ompi/mca/coll/demo/coll_demo_module.c:        demo_module->super.coll_alltoall   = mca_coll_demo_alltoall_intra;
+	//ompi/mca/coll/demo/coll_demo_module.c:        demo_module->super.coll_alltoall   = mca_coll_demo_alltoall_inter;
+	//ompi/mca/coll/inter/coll_inter.c:    inter_module->super.coll_alltoall   = NULL;
+	//ompi/mca/coll/cuda/coll_cuda_module.c:    cuda_module->super.coll_alltoall   = NULL;
+	//ompi/mca/coll/monitoring/coll_monitoring_component.c:    monitoring_module->super.coll_alltoall   = mca_coll_monitoring_alltoall;
+	//ompi/mca/coll/tuned/coll_tuned_module.c:    tuned_module->super.coll_alltoall   = ompi_coll_tuned_alltoall_intra_dec_fixed;
+	//ompi/mca/coll/tuned/coll_tuned_module.c:                                      tuned_module->super.coll_alltoall   = ompi_coll_tuned_alltoall_intra_dec_dynamic);
+	//ompi/mca/coll/sm/coll_sm_module.c:    sm_module->super.coll_alltoall   = NULL;
+	//ompi/mca/coll/hcoll/coll_hcoll_module.c:    hcoll_module->super.coll_alltoall = hcoll_collectives.coll_alltoall ? mca_coll_hcoll_alltoall : NULL;
+
     err = comm->c_coll->coll_alltoall(sendbuf, sendcount, sendtype,
                                      recvbuf, recvcount, recvtype,
                                      comm, comm->c_coll->coll_alltoall_module);

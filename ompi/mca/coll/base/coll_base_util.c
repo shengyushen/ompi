@@ -28,7 +28,7 @@
 #include "ompi/mca/coll/base/coll_base_functions.h"
 #include "ompi/mca/pml/pml.h"
 #include "coll_base_util.h"
-
+//SSY first async recv and then sync send
 int ompi_coll_base_sendrecv_actual( const void* sendbuf, size_t scount,
                                     ompi_datatype_t* sdatatype,
                                     int dest, int stag,
@@ -46,12 +46,14 @@ int ompi_coll_base_sendrecv_actual( const void* sendbuf, size_t scount,
 
     /* post new irecv */
     ompi_datatype_type_size(rdatatype, &rtypesize);
+	//SSY async recv
     err = MCA_PML_CALL(irecv( recvbuf, rcount, rdatatype, source, rtag,
                               comm, &req));
     if (err != MPI_SUCCESS) { line = __LINE__; goto error_handler; }
 
     /* send data to children */
     ompi_datatype_type_size(sdatatype, &stypesize);
+	//SSY sync send
     err = MCA_PML_CALL(send( sendbuf, scount, sdatatype, dest, stag,
                              MCA_PML_BASE_SEND_STANDARD, comm));
     if (err != MPI_SUCCESS) { line = __LINE__; goto error_handler; }
